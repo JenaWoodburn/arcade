@@ -105,5 +105,3 @@ if __name__ == '__main__':
     rock_paper_scissors = rps(args.name)
     rock_paper_scissors()
 
-# Git comment
-# Use argparse to take player's name as argument and use it during game play.
