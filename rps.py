@@ -10,6 +10,7 @@ def rps(name='PlayerOne'):
 
     def play_rps():
         nonlocal name
+        nonlocal game_count
         nonlocal computer_wins
         nonlocal ties
 
@@ -20,27 +21,27 @@ def rps(name='PlayerOne'):
             SCISSORS = 3
 
         #get player choice
-        player = int(input(f"\n{name}, please enter...\n1 for Rock\n2 for Paper, or\n3 for Scissors\n\n"))
-
-        #player can only choose from 1, 2 or 3 - if not, exit
-        if player not in [1, 2, 3]:
-            print("\nYou must enter 1, 2, or 3")
-            return play_rps()
+        while True:
+            player = input(f"\n{name}, enter:\n1 for Rock\n2 for Paper, or\n3 for Scissors\n\n")
+            #player can only choose from 1, 2 or 3 - if not, ask again
+            if player not in ["1", "2", "3"]:
+                print("\nYou must enter 1, 2 or 3")
+                continue
+            else:
+                player = int(player)
+                break
 
         #get computer choice
         computer = int(random.choice("123"))
 
         #display player and computer choice
-        print(f"{name}, you chose {str(RPS(player)).replace('RPS.', '').title()}")
-        print(f"Computer chose {str(RPS(computer)).replace('RPS.', '').title()}")
+        print("You chose " + str(RPS(player)).replace('RPS.', '').title())
+        print("Computer chose " + str(RPS(computer)).replace('RPS.', '').title())
         print("")
 
         #logic for determining winner
-        #tracks number of times computer wins, game is tied
+        #tracks number of times computer wins or game is tied
         def decide_winner(player, computer):
-            nonlocal name
-            nonlocal computer_wins
-            nonlocal ties
             if player == 1 and computer == 3:
                 return(f"{name}, you win 🎉")
             elif player == 2 and computer == 1:
@@ -54,7 +55,7 @@ def rps(name='PlayerOne'):
             else:
                 nonlocal computer_wins
                 computer_wins += 1
-                return(f"Computer wins. Sorry {name} 😪") 
+                return(f"Computer wins. Sorry, {name} 😪") 
             
         #play game and print results
         game_result = decide_winner(player, computer)
@@ -63,10 +64,10 @@ def rps(name='PlayerOne'):
         nonlocal game_count
         game_count += 1
 
-        print(f"\nGame count: {str(game_count)}")
-        print(f"{name}'s wins: {str(game_count - computer_wins - ties)}")
-        print(f"Computer wins: {str(computer_wins)}")
-        print(f"Ties: {str(ties)}")
+        print(f"\nGame count:  {game_count}")
+        print(f"{name}'s wins: {game_count - computer_wins - ties}")
+        print(f"Computer wins: {computer_wins}")
+        print(f"Ties: {ties}")
 
         #ask player to play again or quit
         while True:
@@ -75,19 +76,16 @@ def rps(name='PlayerOne'):
                 continue
             else:
                 break
-        
-        if play_again.lower() == 'y':
-            return play_rps()
-        else:
-            print(f"Thanks for playing, {name}!")
-            if __name__ == "__main__":
-                sys.exit(f"Bye {name}!")
-            else:
-                return
 
+        if play_again.lower() == 'y':
+                return play_rps()
+        else:
+                print(f"Thanks for playing, {name}!")
+                sys.exit()
     return play_rps
 
 rock_paper_scissors = rps()
+
 
 if __name__ == '__main__':
     import argparse
@@ -104,4 +102,3 @@ if __name__ == '__main__':
 
     rock_paper_scissors = rps(args.name)
     rock_paper_scissors()
-
